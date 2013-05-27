@@ -29,7 +29,7 @@ transitBoardHorizontal.isChumby = navigator.userAgent.match(/QtEmb/) != null;
 
 var orig_query_string = window.location.search;
 var app_query_string = orig_query_string.replace(/option\[(top|left|right|bottom)\]=[0-9]*(&|$)/g,"");
-var app_url = "/apps/transitBoardByLine/transitBoardByLine.html?"+app_query_string;
+var app_url = "/apps/transitBoardByLine/transitBoardByLine.html"+app_query_string;
 
 
 /**
