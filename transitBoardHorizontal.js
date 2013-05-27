@@ -101,7 +101,11 @@ var top_border 		= options.top || 0;
 var right_border 	= options.right || 0;
 
 var split_pct 		= options.splitpct || 100;
-var suppl_url 		= options.suppl_url || "http://transitappliance.com/size_info.html";
+var suppl_url 		= options.suppl_url;
+
+if (suppl_url == "") {
+	suppl_url = "http://transitappliance.com/size_info.html";
+}
 
 var effective_width = body_width - left_border - right_border;
 var effective_height = body_height - bottom_border - top_border;
