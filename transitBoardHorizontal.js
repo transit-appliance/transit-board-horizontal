@@ -122,14 +122,14 @@ jQuery("body").css('border-style','solid');
 jQuery("body").css('position','relative'); // for reasons I haven't figured out, this has to be set late
 
 var left_width = Math.floor(effective_width * split_pct/100);
-var right_width = effective_width - left_width - 10;
+var right_width = effective_width - left_width;
 
 	
 // populate html
 
 var html = '<div id="tb_frames" style="width: ' + effective_width + 'px; height: ' + effective_height + 'px"><iframe id="app_frame" src="'+app_url+'" scrolling="no" style="border:none; margin: 0; float: left; width: ' + left_width + 'px; height: ' + effective_height + 'px"></iframe>';
-if (right_width > 10) {
-	html += '</iframe><iframe id="suppl_frame" src="' + suppl_url + '" scrolling="no" style="border: none; margin-right: 0px; margin-top: 0px; margin-bottom: 0px; float: left; margin-left: 10px; width: ' + right_width + 'px; height: ' + effective_height+'px"></iframe>';
+if (right_width > 1) {
+	html += '</iframe><iframe id="suppl_frame" src="' + suppl_url + '" scrolling="no" style="border: none; margin: 0; width: ' + right_width + 'px; height: ' + effective_height+'px"></iframe>';
 }
 html += '</div>';
 	
