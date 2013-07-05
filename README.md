@@ -1,4 +1,4 @@
-transit-board-vertical
+transit-board-horizontal
 ========================
 
-Transit Board with vertically split screen
+Transit Board with horizontally split screen

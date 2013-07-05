@@ -14,18 +14,18 @@
    limitations under the License.
 */
 
-var transitBoardVertical = {}; // keep state
+var transitBoardHorizontal = {}; // keep state
 
 // constants
 
-transitBoardVertical.APP_NAME 		= "Transit Board Vertical";
-transitBoardVertical.APP_VERSION 	= "1.00";
-transitBoardVertical.APP_ID 			= "tbdvertical";
+transitBoardHorizontal.APP_NAME 		= "Transit Board Horizontal";
+transitBoardHorizontal.APP_VERSION 	= "1.00";
+transitBoardHorizontal.APP_ID 			= "tbdhorizontal";
 
 // assess environment
 
-transitBoardVertical.is_development = (document.domain == "dev.transitboard.com");
-transitBoardVertical.isChumby = navigator.userAgent.match(/QtEmb/) != null;
+transitBoardHorizontal.is_development = (document.domain == "dev.transitboard.com");
+transitBoardHorizontal.isChumby = navigator.userAgent.match(/QtEmb/) != null;
 
 var orig_query_string = window.location.search;
 var app_query_string = orig_query_string.replace(/option\[(top|left|right|bottom)\]=[0-9]*(&|$)/g,"");
@@ -121,15 +121,15 @@ jQuery("body").css('border-color','black');
 jQuery("body").css('border-style','solid');
 jQuery("body").css('position','relative'); // for reasons I haven't figured out, this has to be set late
 
-var top_height = Math.floor(effective_height * split_pct/100);
-var bottom_height = effective_height - top_height;
+var left_width = Math.floor(effective_width * split_pct/100);
+var right_width = effective_width - left_width;
 
 	
 // populate html
 
-var html = '<div id="tb_frames" style="width: ' + effective_width + 'px; height: ' + effective_height + 'px"><iframe id="app_frame" src="'+app_url+'" scrolling="no" style="border:none; margin: 0; float: left; width: ' + effective_width + 'px; height: ' + top_height + 'px; clear: both"></iframe>';
-if (bottom_height > 1) {
-	html += '</iframe><iframe id="suppl_frame" src="' + suppl_url + '" scrolling="no" style="border: none; margin: 0; width: ' + effective_width + 'px; height: ' + bottom_height+'px"></iframe>';
+var html = '<div id="tb_frames" style="width: ' + effective_width + 'px; height: ' + effective_height + 'px"><iframe id="app_frame" src="'+app_url+'" scrolling="no" style="border:none; margin: 0; float: left; width: ' + left_width + 'px; height: ' + effective_height + 'px"></iframe>';
+if (right_width > 1) {
+	html += '</iframe><iframe id="suppl_frame" src="' + suppl_url + '" scrolling="no" style="border: none; margin: 0; width: ' + right_width + 'px; height: ' + effective_height+'px"></iframe>';
 }
 html += '</div>';
 	
