@@ -88,7 +88,19 @@ for (var option in query_params.option) {
 	options[option] = opt_array;
 }
 
+var appliance = {};
+for (var appl in query_params.appl) {
+	var opt_array = [];
+	for (var value in this.query_params.appl[appl]) {
+		opt_array.push(value);
+	}
+	appliance[appl] = opt_array;
+}
 
+var second_page = false;
+if (options['second_page'] == 1) {
+	second_page = true;
+}
 		
 // initialize screen margins
 
@@ -127,13 +139,32 @@ var right_width = effective_width - left_width;
 	
 // populate html
 
-var html = '<div id="tb_frames" style="width: ' + effective_width + 'px; height: ' + effective_height + 'px"><iframe id="app_frame" src="'+app_url+'" scrolling="no" style="border:none; margin: 0; float: left; width: ' + left_width + 'px; height: ' + effective_height + 'px"></iframe>';
+var html = '<div id="tb_frames" style="width: ' + effective_width + 'px; height: ' + effective_height + 'px">';
+html += '<div style="position: relative; float: left; border:none; margin: 0; width: ' + left_width + 'px; height: ' + effective_height + 'px">';
+html += '<iframe id="app_frame" src="'+app_url+'" scrolling="no" style="position: absolute; border:none; margin: 0; float: left; width: ' + left_width + 'px; height: ' + effective_height + 'px"></iframe>';
+
+if ( second_page && appliance['id'] ) {
+	var id = appliance['id'];
+	var alt_id = id+":ALT";
+	var app_url2 = "/apps/loader.html?"+alt_id;
+	html += '<iframe id="app_frame2" src="'+app_url2+'" scrolling="no" style="position: absolute; float: left; border:none; margin: 0; width: ' + left_width + 'px; height: ' + effective_height + 'px"></iframe>';
+}
+html += '</div>';
 if (right_width > 1) {
 	html += '</iframe><iframe id="suppl_frame" src="' + suppl_url + '" scrolling="no" style="border: none; margin: 0; width: ' + right_width + 'px; height: ' + effective_height+'px"></iframe>';
 }
 html += '</div>';
 	
 jQuery('body').html(html);
+
+if ( second_page && appliance['id'] ) {
+	setTimeout(function(){
+		jQuery("#app_frame2").css('display','none');
+		setInterval(function(){
+			jQuery("#app_frame1, #app_frame2").toggle(1000);
+		},15000);
+	},60000);
+}
 
 	
 
