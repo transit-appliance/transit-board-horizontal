@@ -167,7 +167,7 @@ if ( second_page && appliance['id'] ) {
 		setInterval(function(){
 			jQuery("#app_frame1, #app_frame2").toggle(1000);
 		},15000);
-	},60000);
+	},100000);
 }
 
 // set up healthcheck/restart logic
