@@ -19,7 +19,7 @@ var transitBoardHorizontal = {}; // keep state
 // constants
 
 transitBoardHorizontal.APP_NAME 		= "Transit Board Horizontal";
-transitBoardHorizontal.APP_VERSION 	= "1.01";
+transitBoardHorizontal.APP_VERSION 	= "1.02";
 transitBoardHorizontal.APP_ID 			= "tbdhorizontal";
 
 // assess environment
@@ -76,6 +76,18 @@ trArrParseQuery = function(qs) {
 		}
 	});
 	return params;
+}
+
+function trArrSupportsCors() {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // Supports CORS
+    return true;
+  } else if (typeof XDomainRequest != "undefined") {
+    // IE
+    return true;
+  }
+  return false;
 }
 
 var query_params = trArrParseQuery();
@@ -174,16 +186,22 @@ if ( second_page && appliance['id'] ) {
 
 var start_time = ((new Date)).getTime();
 
+transitBoardHorizontal.access_method = "jsonp";
+if (trArrSupportsCors()) {
+	transitBoardHorizontal.access_method = "json";
+}
+
 jQuery.ajax({
-		url: "http://transitappliance.com/cgi-bin/health_update.pl",
+		dataType: transitBoardHorizontal.access_method,
+		url: "http://ta-web-services.com/cgi-bin/health_update.pl",
 		data: { timestamp: start_time, start_time: start_time, version: 'N/A', "id": appliance['id'], application_id: transitBoardHorizontal.APP_ID, application_name: transitBoardHorizontal.APP_NAME, application_version: transitBoardHorizontal.APP_VERSION, "height": jQuery(window).height(), "width": jQuery(window).width() }
 });
 
 // logging of startup, beat every 30 min goes here
 setInterval(function(){
 	jQuery.ajax({
-			url: "http://transitappliance.com/cgi-bin/health_update.pl",
-			dataType: 'jsonp',
+			url: "http://ta-web-services.com/cgi-bin/health_update.pl",
+			dataType: transitBoardHorizontal.access_method,
 			cache: false,
 			data: { timestamp: ((new Date)).getTime(), start_time: start_time, version: 'N/A', "id": appliance['id'], application_id: transitBoardHorizontal.APP_ID, application_name: transitBoardHorizontal.APP_NAME, application_version: transitBoardHorizontal.APP_VERSION, "height": jQuery(window).height(), "width": jQuery(window).width() },
 			success: function(data) {
