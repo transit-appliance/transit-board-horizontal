@@ -115,6 +115,14 @@ var second_page = false;
 if (options['second_page'] == 1) {
 	second_page = true;
 }
+
+var num_pages = options['num_pages'] || 1;
+if (second_page && num_pages < 2) {
+	num_pages = 2;
+}
+num_pages = num_pages * 1;
+
+var page_delay = options['page_delay'] || 15;
 		
 // initialize screen margins
 
@@ -157,14 +165,26 @@ var app_url = "/apps/loader.html?"+primary_id;
 
 var html = '<div id="tb_frames" style="width: ' + effective_width + 'px; height: ' + effective_height + 'px">';
 html += '<div style="position: relative; float: left; border:none; margin: 0; width: ' + left_width + 'px; height: ' + effective_height + 'px">';
-html += '<iframe id="app_frame" src="'+app_url+'" scrolling="no" style="position: absolute; border:none; margin: 0; float: left; width: ' + left_width + 'px; height: ' + effective_height + 'px"></iframe>';
+html += '<iframe id="app_frame1" src="'+app_url+'" scrolling="no" style="position: absolute; border:none; margin: 0; float: left; width: ' + left_width + 'px; height: ' + effective_height + 'px"></iframe>';
 
+if ( num_pages > 1 && appliance['id'] ) {
+	for (var i=2;i<=num_pages;i++) {
+		var letter = ("ABCDEFGHIJKLMNOPQRSTUVWXYZ").substr(i-1,1);
+		//alert(letter);
+		var id = appliance['id'];
+		var alt_id = id+":"+letter;
+		var app_url2 = "/apps/loader.html?"+alt_id;
+		html += '<iframe id="app_frame'+i+'" src="'+app_url2+'" scrolling="no" style="position: absolute; float: left; border:none; margin: 0; width: ' + left_width + 'px; height: ' + effective_height + 'px"></iframe>';
+	}
+}
+/*
 if ( second_page && appliance['id'] ) {
 	var id = appliance['id'];
 	var alt_id = id+":B";
 	var app_url2 = "/apps/loader.html?"+alt_id;
 	html += '<iframe id="app_frame2" src="'+app_url2+'" scrolling="no" style="position: absolute; float: left; border:none; margin: 0; width: ' + left_width + 'px; height: ' + effective_height + 'px"></iframe>';
 }
+*/
 html += '</div>';
 if (right_width > 1) {
 	html += '</iframe><iframe id="suppl_frame" src="' + suppl_url + '" scrolling="no" style="border: none; margin: 0; width: ' + right_width + 'px; height: ' + effective_height+'px"></iframe>';
@@ -173,6 +193,30 @@ html += '</div>';
 	
 jQuery('body').html(html);
 
+var current_frame = 0;
+function rotate_frames () {
+	current_frame = current_frame + 1;
+	if (current_frame > num_pages) {
+		current_frame = 1;
+	}
+	//alert(current_frame+" out of "+num_pages);
+	for (var i=1;i<=num_pages;i++) {
+		if (i == current_frame) {
+			//alert( "show "+i);
+			jQuery("#app_frame"+i).show(1000);
+		} else {
+			//alert("hide "+i);
+			jQuery("#app_frame"+i).hide(1000);
+		}
+	}
+	setTimeout(rotate_frames,page_delay*1000);
+}
+
+if ( num_pages > 1 && appliance['id'] ) {
+	setTimeout(rotate_frames,100000); // 100 second delay to let everything load
+}
+
+/*
 if ( second_page && appliance['id'] ) {
 	setTimeout(function(){
 		jQuery("#app_frame2").css('display','none');
@@ -181,6 +225,7 @@ if ( second_page && appliance['id'] ) {
 		},15000);
 	},100000);
 }
+*/
 
 // set up healthcheck/restart logic
 
