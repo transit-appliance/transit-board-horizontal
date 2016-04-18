@@ -41,7 +41,7 @@ trArrParseQuery = function(qs) {
 	var q = (typeof qs === 'string'?qs:window.location.search);
 	var params = {};
 	jQuery.each(q.match(/^\??(.*)$/)[1].split('&'),function(i,p){
-		p = unescape(p).replace(/\+/g,' ').replace(/\]/g,'');
+		p = p.replace(/\+/g,' ').replace(/\]/g,'');
 		p = p.split('=');
 		var keys = p[0].split('[');
 		var value = p[1];
@@ -51,7 +51,7 @@ trArrParseQuery = function(qs) {
 			if (params[keys[0]] == undefined) {
 				params[keys[0]] = {};
 			}
-			params[keys[0]][value] = true;
+			params[keys[0]][unescape(value)] = true;
 		}
 		if (depth == 2) {
 			if (params[keys[0]] == undefined) {
@@ -60,7 +60,7 @@ trArrParseQuery = function(qs) {
 			if (params[keys[0]][keys[1]] == undefined) {
 				params[keys[0]][keys[1]] = {};
 			}
-			params[keys[0]][keys[1]][value] = true;
+			params[keys[0]][keys[1]][unescape(value)] = true;
 		}
 		if (depth == 3) {
 			if (params[keys[0]] == undefined) {
@@ -72,7 +72,7 @@ trArrParseQuery = function(qs) {
 			if (params[keys[0]][keys[1]][keys[2]] == undefined) {
 				params[keys[0]][keys[1]][keys[2]] = {};
 			}
-			params[keys[0]][keys[1]][keys[2]][value] = true;
+			params[keys[0]][keys[1]][keys[2]][unescape(value)] = true;
 		}
 	});
 	return params;
