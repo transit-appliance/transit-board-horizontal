@@ -19,8 +19,10 @@ var transitBoardHorizontal = {}; // keep state
 // constants
 
 transitBoardHorizontal.APP_NAME 		= "Transit Board Horizontal";
-transitBoardHorizontal.APP_VERSION 	= "1.02";
+transitBoardHorizontal.APP_VERSION 	= "1.03";
 transitBoardHorizontal.APP_ID 			= "tbdhorizontal";
+
+// 1.03 - 9/22/16 - shift to jQuery 1.11.0
 
 // assess environment
 
@@ -203,10 +205,14 @@ function rotate_frames () {
 	for (var i=1;i<=num_pages;i++) {
 		if (i == current_frame) {
 			//alert( "show "+i);
-			jQuery("#app_frame"+i).show(1000);
+			//jQuery("#app_frame"+i).show(1000);
+			//document.getElementById("app_frame"+i).style.display = 'block';
+			document.getElementById("app_frame"+i).style.zIndex = 1000;
 		} else {
 			//alert("hide "+i);
-			jQuery("#app_frame"+i).hide(1000);
+			//jQuery("#app_frame"+i).hide(1000);
+			//document.getElementById("app_frame"+i).style.display = 'none';
+			document.getElementById("app_frame"+i).style.zIndex = -1000;
 		}
 	}
 	setTimeout(rotate_frames,page_delay*1000);
@@ -236,10 +242,15 @@ if (trArrSupportsCors()) {
 	transitBoardHorizontal.access_method = "json";
 }
 
+var platform = "";
+if (typeof options.platform === 'object') {
+	platform = options.platform[0];
+}
+
 jQuery.ajax({
 		dataType: transitBoardHorizontal.access_method,
 		url: "http://ta-web-services.com/cgi-bin/health_update.pl",
-		data: { timestamp: start_time, start_time: start_time, version: 'N/A', "id": appliance['id'], application_id: transitBoardHorizontal.APP_ID, application_name: transitBoardHorizontal.APP_NAME, application_version: transitBoardHorizontal.APP_VERSION, "height": jQuery(window).height(), "width": jQuery(window).width() }
+		data: { timestamp: start_time, start_time: start_time, version: 'N/A', "id": appliance['id'], application_id: transitBoardHorizontal.APP_ID, application_name: transitBoardHorizontal.APP_NAME, application_version: transitBoardHorizontal.APP_VERSION, "height": jQuery(window).height(), "width": jQuery(window).width(), "platform": platform }
 });
 
 // logging of startup, beat every 30 min goes here
@@ -248,7 +259,7 @@ setInterval(function(){
 			url: "http://ta-web-services.com/cgi-bin/health_update.pl",
 			dataType: transitBoardHorizontal.access_method,
 			cache: false,
-			data: { timestamp: ((new Date)).getTime(), start_time: start_time, version: 'N/A', "id": appliance['id'], application_id: transitBoardHorizontal.APP_ID, application_name: transitBoardHorizontal.APP_NAME, application_version: transitBoardHorizontal.APP_VERSION, "height": jQuery(window).height(), "width": jQuery(window).width() },
+			data: { timestamp: ((new Date)).getTime(), start_time: start_time, version: 'N/A', "id": appliance['id'], application_id: transitBoardHorizontal.APP_ID, application_name: transitBoardHorizontal.APP_NAME, application_version: transitBoardHorizontal.APP_VERSION, "height": jQuery(window).height(), "width": jQuery(window).width(), "platform": platform },
 			success: function(data) {
 				if( typeof data != "undefined" && data.reset == true ) {
 					reset_app();
