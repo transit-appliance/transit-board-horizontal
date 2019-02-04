@@ -204,15 +204,15 @@ function rotate_frames () {
 	//alert(current_frame+" out of "+num_pages);
 	for (var i=1;i<=num_pages;i++) {
 		if (i == current_frame) {
-			//alert( "show "+i);
-			//jQuery("#app_frame"+i).show(1000);
-			//document.getElementById("app_frame"+i).style.display = 'block';
-			document.getElementById("app_frame"+i).style.zIndex = 1000;
+			var frame = document.getElementById("app_frame"+i);
+			if (frame !== null) {
+				frame.style.zIndex = 1000;
+			}
 		} else {
-			//alert("hide "+i);
-			//jQuery("#app_frame"+i).hide(1000);
-			//document.getElementById("app_frame"+i).style.display = 'none';
-			document.getElementById("app_frame"+i).style.zIndex = -1000;
+			var frame = document.getElementById("app_frame"+i);
+			if (frame !== null) {
+				frame.style.zIndex = -1000;
+			}
 		}
 	}
 	setTimeout(rotate_frames,page_delay*1000);
