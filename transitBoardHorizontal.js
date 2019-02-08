@@ -249,14 +249,14 @@ if (typeof options.platform === 'object') {
 
 jQuery.ajax({
 		dataType: transitBoardHorizontal.access_method,
-		url: "http://ta-web-services.com/cgi-bin/health_update.pl",
+		url: "http://ta-web-services.com/health_update.php",
 		data: { timestamp: start_time, start_time: start_time, version: 'N/A', "id": appliance['id'], application_id: transitBoardHorizontal.APP_ID, application_name: transitBoardHorizontal.APP_NAME, application_version: transitBoardHorizontal.APP_VERSION, "height": jQuery(window).height(), "width": jQuery(window).width(), "platform": platform }
 });
 
 // logging of startup, beat every 30 min goes here
 setInterval(function(){
 	jQuery.ajax({
-			url: "http://ta-web-services.com/cgi-bin/health_update.pl",
+			url: "http://ta-web-services.com/health_update.php",
 			dataType: transitBoardHorizontal.access_method,
 			cache: false,
 			data: { timestamp: ((new Date)).getTime(), start_time: start_time, version: 'N/A', "id": appliance['id'], application_id: transitBoardHorizontal.APP_ID, application_name: transitBoardHorizontal.APP_NAME, application_version: transitBoardHorizontal.APP_VERSION, "height": jQuery(window).height(), "width": jQuery(window).width(), "platform": platform },
