@@ -167,7 +167,7 @@ var app_url = "/apps/loader.html?"+primary_id;
 
 var html = '<div id="tb_frames" style="width: ' + effective_width + 'px; height: ' + effective_height + 'px">';
 html += '<div style="position: relative; float: left; border:none; margin: 0; width: ' + left_width + 'px; height: ' + effective_height + 'px">';
-html += '<iframe id="app_frame1" src="'+app_url+'" scrolling="no" style="position: absolute; border:none; margin: 0; float: left; width: ' + left_width + 'px; height: ' + effective_height + 'px"></iframe>';
+html += '<iframe id="app_frame1" src="'+app_url+'" scrolling="no" style="background: white; position: absolute; border:none; margin: 0; float: left; width: ' + left_width + 'px; height: ' + effective_height + 'px"></iframe>';
 
 if ( num_pages > 1 && appliance['id'] ) {
 	for (var i=2;i<=num_pages;i++) {
@@ -176,7 +176,7 @@ if ( num_pages > 1 && appliance['id'] ) {
 		var id = appliance['id'];
 		var alt_id = id+":"+letter;
 		var app_url2 = "/apps/loader.html?"+alt_id;
-		html += '<iframe id="app_frame'+i+'" src="'+app_url2+'" scrolling="no" style="position: absolute; float: left; border:none; margin: 0; width: ' + left_width + 'px; height: ' + effective_height + 'px"></iframe>';
+		html += '<iframe id="app_frame'+i+'" src="'+app_url2+'" scrolling="no" style="background: white; position: absolute; float: left; border:none; margin: 0; width: ' + left_width + 'px; height: ' + effective_height + 'px"></iframe>';
 	}
 }
 /*
@@ -189,7 +189,7 @@ if ( second_page && appliance['id'] ) {
 */
 html += '</div>';
 if (right_width > 1) {
-	html += '</iframe><iframe id="suppl_frame" src="' + suppl_url + '" scrolling="no" style="border: none; margin: 0; width: ' + right_width + 'px; height: ' + effective_height+'px"></iframe>';
+	html += '</iframe><iframe id="suppl_frame" src="' + suppl_url + '" scrolling="no" style="background: white; border: none; margin: 0; width: ' + right_width + 'px; height: ' + effective_height+'px"></iframe>';
 }
 html += '</div>';
 	
