@@ -19,10 +19,11 @@ var transitBoardHorizontal = {}; // keep state
 // constants
 
 transitBoardHorizontal.APP_NAME 		= "Transit Board Horizontal";
-transitBoardHorizontal.APP_VERSION 	= "1.03";
+transitBoardHorizontal.APP_VERSION 	= "1.04";
 transitBoardHorizontal.APP_ID 			= "tbdhorizontal";
 
 // 1.03 - 9/22/16 - shift to jQuery 1.11.0
+// 1.04 - 11/26/21 - make neutral with regard to http/https
 
 // assess environment
 
@@ -140,7 +141,7 @@ var split_pct 		= options.splitpct || 100;
 var suppl_url 		= options.suppl_url;
 
 if (suppl_url == "") {
-	suppl_url = "http://transitappliance.com/size_info.html";
+	suppl_url = "//transitappliance.com/size_info.html";
 }
 
 var effective_width = body_width - left_border - right_border;
@@ -249,14 +250,14 @@ if (typeof options.platform === 'object') {
 
 jQuery.ajax({
 		dataType: transitBoardHorizontal.access_method,
-		url: "http://ta-web-services.com/health_update.php",
+		url: "//ta-web-services.com/health_update.php",
 		data: { timestamp: start_time, start_time: start_time, version: 'N/A', "id": appliance['id'], application_id: transitBoardHorizontal.APP_ID, application_name: transitBoardHorizontal.APP_NAME, application_version: transitBoardHorizontal.APP_VERSION, "height": jQuery(window).height(), "width": jQuery(window).width(), "platform": platform }
 });
 
 // logging of startup, beat every 30 min goes here
 setInterval(function(){
 	jQuery.ajax({
-			url: "http://ta-web-services.com/health_update.php",
+			url: "//ta-web-services.com/health_update.php",
 			dataType: transitBoardHorizontal.access_method,
 			cache: false,
 			data: { timestamp: ((new Date)).getTime(), start_time: start_time, version: 'N/A', "id": appliance['id'], application_id: transitBoardHorizontal.APP_ID, application_name: transitBoardHorizontal.APP_NAME, application_version: transitBoardHorizontal.APP_VERSION, "height": jQuery(window).height(), "width": jQuery(window).width(), "platform": platform },
@@ -274,7 +275,7 @@ var reset_app = function() {
 		if(typeof trLoader == 'function') {
 			trLoader(appliance['id']);
 		} else {
-			window.location = "http://transitappliance.com/cgi-bin/launch_by_id.pl?id="+appliance['id'];
+			window.location = "//transitappliance.com/cgi-bin/launch_by_id.pl?id="+appliance['id'];
 		}
 	} else {
 		window.location.reload(true);
